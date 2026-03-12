@@ -1,0 +1,30 @@
+[package]
+name = "figif-core"
+description = "GIF frame analysis and manipulation library with plugin architecture"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[features]
+default = ["parallel"]
+lossy = ["dep:gifski"]
+parallel = ["dep:rayon"]
+
+[dependencies]
+thiserror = { workspace = true }
+image = { workspace = true }
+gif = { workspace = true }
+img_hash = { workspace = true }
+gifski = { workspace = true, optional = true }
+rayon = { workspace = true, optional = true }
+rgb = "0.8.53"
+imgref = "1.12.0"
+
+[dev-dependencies]
+tempfile = { workspace = true }
+criterion = "0.5"
+
+[[bench]]
+name = "analysis"
+harness = false
