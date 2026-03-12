@@ -1,0 +1,19 @@
+[package]
+name = "figif-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2024"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+figif-core = { path = "../crates/figif-core" }
+
+[[bin]]
+name = "fuzz_decoder"
+path = "fuzz_targets/fuzz_decoder.rs"
+test = false
+doc = false
+bench = false
