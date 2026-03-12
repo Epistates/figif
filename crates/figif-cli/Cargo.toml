@@ -1,0 +1,43 @@
+[package]
+name = "figif-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "CLI for GIF frame analysis and optimization"
+
+[[bin]]
+name = "figif"
+path = "src/main.rs"
+
+[dependencies]
+figif-core = { path = "../figif-core" }
+img_hash = { workspace = true }
+
+# CLI
+clap.workspace = true
+clap_complete.workspace = true
+
+# Error handling
+color-eyre.workspace = true
+
+# Output
+indicatif.workspace = true
+console.workspace = true
+dialoguer.workspace = true
+tabled.workspace = true
+
+# Config
+confy.workspace = true
+directories.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+toml = "0.8"
+
+# Logging
+tracing.workspace = true
+tracing-subscriber.workspace = true
+
+[features]
+default = []
+lossy = ["figif-core/lossy"]
