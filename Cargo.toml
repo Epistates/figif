@@ -1,0 +1,51 @@
+[workspace]
+resolver = "3"
+members = ["crates/*", "fuzz"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/nickpaterno/figif"
+
+[workspace.dependencies]
+# Core
+thiserror = "2.0"
+image = { version = "0.25", default-features = false, features = ["gif", "png"] }
+gif = "0.13"
+
+# Hashing
+img_hash = "3.2"
+
+# Lossy encoding (optional)
+gifski = "1.34"
+
+# Parallel processing
+rayon = "1.10"
+
+# CLI
+clap = { version = "4.5", features = ["derive", "env", "unicode", "wrap_help"] }
+clap_complete = "4.5"
+color-eyre = "0.6"
+indicatif = "0.17"
+console = "0.15"
+dialoguer = "0.11"
+tabled = "0.17"
+confy = "0.6"
+directories = "5.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# TUI
+ratatui = "0.29"
+ratatui-image = { version = "8.0", features = ["crossterm"] }
+crossterm = { version = "0.28", features = ["event-stream"] }
+tokio = { version = "1.42", features = ["full"] }
+tokio-util = "0.7"
+futures = "0.3"
+tui-logger = "0.14"
+
+# Dev dependencies
+tempfile = "3"
