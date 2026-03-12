@@ -1,0 +1,39 @@
+[package]
+name = "figif-tui"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Interactive TUI for GIF manipulation"
+
+[[bin]]
+name = "figif-tui"
+path = "src/main.rs"
+
+[dependencies]
+figif-core = { path = "../figif-core" }
+img_hash = { workspace = true }
+image.workspace = true
+
+# CLI args
+clap.workspace = true
+
+# TUI
+ratatui.workspace = true
+ratatui-image.workspace = true
+crossterm.workspace = true
+
+# Async
+tokio.workspace = true
+futures.workspace = true
+
+# Error handling
+color-eyre.workspace = true
+
+# Logging
+tracing.workspace = true
+tracing-subscriber.workspace = true
+
+[features]
+default = []
+lossy = ["figif-core/lossy"]
