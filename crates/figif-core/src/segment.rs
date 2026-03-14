@@ -44,7 +44,8 @@ pub fn apply_segment_operations<H: Sync + Send>(
                     SegmentOp::Remove => {}
                     SegmentOp::Collapse { delay_cs } => {
                         if let Some(first) = segment_frames.first() {
-                            segment_output.push(EncodableFrame::new(first.frame.image.clone(), *delay_cs));
+                            segment_output
+                                .push(EncodableFrame::new(first.frame.image.clone(), *delay_cs));
                         }
                     }
                     SegmentOp::SetDuration { total_cs } => {
@@ -59,7 +60,8 @@ pub fn apply_segment_operations<H: Sync + Send>(
                                 } else {
                                     per_frame_delay
                                 };
-                                segment_output.push(EncodableFrame::new(frame.frame.image.clone(), delay));
+                                segment_output
+                                    .push(EncodableFrame::new(frame.frame.image.clone(), delay));
                             }
                         }
                     }
@@ -75,7 +77,8 @@ pub fn apply_segment_operations<H: Sync + Send>(
                     }
                     SegmentOp::SetFrameDelay { delay_cs } => {
                         for frame in segment_frames {
-                            segment_output.push(EncodableFrame::new(frame.frame.image.clone(), *delay_cs));
+                            segment_output
+                                .push(EncodableFrame::new(frame.frame.image.clone(), *delay_cs));
                         }
                     }
                 }
@@ -242,8 +245,10 @@ pub fn apply_operations<H: Sync + Send>(
                     match seg_op {
                         SegmentOp::Collapse { delay_cs } => {
                             if let Some(first) = segment_frames.first() {
-                                segment_output
-                                    .push(EncodableFrame::new(first.frame.image.clone(), *delay_cs));
+                                segment_output.push(EncodableFrame::new(
+                                    first.frame.image.clone(),
+                                    *delay_cs,
+                                ));
                             }
                         }
                         SegmentOp::SetDuration { total_cs } => {
@@ -257,8 +262,10 @@ pub fn apply_operations<H: Sync + Send>(
                                     } else {
                                         per_frame_delay
                                     };
-                                    segment_output
-                                        .push(EncodableFrame::new(frame.frame.image.clone(), delay));
+                                    segment_output.push(EncodableFrame::new(
+                                        frame.frame.image.clone(),
+                                        delay,
+                                    ));
                                 }
                             }
                         }
@@ -267,8 +274,10 @@ pub fn apply_operations<H: Sync + Send>(
                                 let original_delay = frame.frame.delay_centiseconds as f64;
                                 let new_delay = (original_delay * factor).round() as u16;
                                 let new_delay = new_delay.max(1);
-                                segment_output
-                                    .push(EncodableFrame::new(frame.frame.image.clone(), new_delay));
+                                segment_output.push(EncodableFrame::new(
+                                    frame.frame.image.clone(),
+                                    new_delay,
+                                ));
                             }
                         }
                         SegmentOp::SetFrameDelay { delay_cs } => {
@@ -470,7 +479,7 @@ pub fn split_segments_at_points<H: Clone>(
             if matches!(op, FrameOp::SplitAfter) || is_last_frame {
                 // Split point or end of segment reached
                 let sub_segment_end = abs_idx + 1;
-                
+
                 // Only create if we haven't already processed this sub-segment
                 if sub_segment_start < sub_segment_end {
                     let sub_range = sub_segment_start..sub_segment_end;
@@ -643,8 +652,8 @@ mod tests {
 
     #[test]
     fn test_split_segments_at_points() {
-        use image::RgbaImage;
         use crate::types::DecodedFrame;
+        use image::RgbaImage;
 
         let frames: Vec<AnalyzedFrame<()>> = (0..10)
             .map(|i| {

@@ -72,7 +72,10 @@ impl<H: FrameHasher + std::fmt::Debug> std::fmt::Debug for Figif<H> {
             .field("hasher", &self.hasher)
             .field("config", &self.config)
             .field("decoder", &self.decoder)
-            .field("progress_callback", &self.progress_callback.as_ref().map(|_| "Some(callback)"))
+            .field(
+                "progress_callback",
+                &self.progress_callback.as_ref().map(|_| "Some(callback)"),
+            )
             .finish()
     }
 }
@@ -244,8 +247,12 @@ impl<H: FrameHasher> Figif<H> {
         };
 
         // Analyze frames
-        let progress = self.progress_callback.as_ref().map(|c| c.as_ref() as &(dyn Fn(usize, usize) + Send + Sync));
-        let (analyzed_frames, segments) = analyze_frames(frames, &self.hasher, &self.config, progress);
+        let progress = self
+            .progress_callback
+            .as_ref()
+            .map(|c| c.as_ref() as &(dyn Fn(usize, usize) + Send + Sync));
+        let (analyzed_frames, segments) =
+            analyze_frames(frames, &self.hasher, &self.config, progress);
 
         Ok(Analysis {
             metadata,
@@ -315,7 +322,10 @@ impl<H: FrameHasher> Figif<H> {
             }
         };
 
-        let progress = self.progress_callback.as_ref().map(|c| c.as_ref() as &(dyn Fn(usize, usize) + Send + Sync));
+        let progress = self
+            .progress_callback
+            .as_ref()
+            .map(|c| c.as_ref() as &(dyn Fn(usize, usize) + Send + Sync));
         let (analyzed_frames, segments) =
             analyze_frames_parallel(frames, &self.hasher, &self.config, progress);
 
@@ -406,11 +416,7 @@ impl<H: Clone + Sync + Send> Analysis<H> {
     /// Calculate the resulting frame count and duration without cloning images.
     ///
     /// Returns (total_frames, total_duration_ms).
-    pub fn calculate_impact(
-        &self,
-        segment_ops: &SegmentOps,
-        frame_ops: &FrameOps,
-    ) -> (usize, u64) {
+    pub fn calculate_impact(&self, segment_ops: &SegmentOps, frame_ops: &FrameOps) -> (usize, u64) {
         let (frames, cs) = crate::segment::dry_run_all_operations(
             &self.frames,
             &self.segments,
@@ -451,11 +457,8 @@ impl<H: Clone + Sync + Send> Analysis<H> {
     /// based on the split points. This allows applying different segment-level
     /// operations to the newly created parts.
     pub fn split_segments(&self, frame_ops: &FrameOps) -> Analysis<H> {
-        let (new_frames, new_segments) = crate::segment::split_segments_at_points(
-            &self.frames,
-            &self.segments,
-            frame_ops,
-        );
+        let (new_frames, new_segments) =
+            crate::segment::split_segments_at_points(&self.frames, &self.segments, frame_ops);
 
         Analysis {
             metadata: self.metadata.clone(),
