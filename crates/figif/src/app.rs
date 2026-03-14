@@ -161,8 +161,6 @@ pub struct App {
     pub last_rendered_state: Option<RenderState>,
     /// Preview zoom scale (1.0 = fit to area, >1.0 = zoomed in)
     pub preview_scale: f32,
-    /// Whether terminal capability detection is in progress
-    pub picker_loading: bool,
     /// Whether a file is currently being loaded/analyzed
     pub loading_file: bool,
     /// Current loading progress (current, total)
@@ -204,13 +202,17 @@ impl App {
             image_state: None,
             last_rendered_state: None,
             preview_scale: 1.0,
-            picker_loading: false,
             loading_file: false,
 
             loading_progress: (0, 0),
             action_tx,
             action_rx,
         }
+    }
+
+    /// Set the image protocol picker (should be initialized before event loop).
+    pub fn set_picker(&mut self, picker: Picker) {
+        self.picker = Some(picker);
     }
 
     /// Start loading a GIF file for analysis asynchronously.
@@ -396,20 +398,6 @@ impl App {
         use crossterm::event::EventStream;
         use futures::StreamExt;
 
-        // Perform dynamic capability detection after alternate screen/raw mode is active
-        // Do this in background to avoid blocking the first few renders
-        if self.picker.is_none() && !self.picker_loading {
-            self.picker_loading = true;
-            let tx = self.action_tx.clone();
-            tokio::task::spawn_blocking(move || {
-                let picker = Picker::from_query_stdio().ok().or_else(|| {
-                    // Fallback to halfblocks if protocol query fails
-                    Some(Picker::halfblocks())
-                });
-                let _ = tx.send(Action::PickerInitialized(picker));
-            });
-        }
-
         let mut events = EventStream::new();
         let mut last_tick = Instant::now();
         let tick_rate = Duration::from_millis(100);
@@ -435,11 +423,8 @@ impl App {
                                 }
                             }
                             Event::Resize(_, _) => {
-                                // Refresh picker on resize to ensure cell size is accurate
-                                self.picker = Picker::from_query_stdio().ok().or_else(|| {
-                                    Some(Picker::halfblocks())
-                                });
-                                // Force re-render of image
+                                // Force re-render of image on terminal resize
+                                self.image_state = None;
                                 self.last_rendered_state = None;
                             }
                             _ => {}
@@ -1204,12 +1189,6 @@ impl App {
 
             Action::AnalysisResult(result) => {
                 self.finish_loading(result);
-            }
-
-            Action::PickerInitialized(picker) => {
-                self.picker = picker;
-                self.picker_loading = false;
-                self.last_rendered_state = None; // Force re-render with new picker
             }
 
             Action::Export(path, _config) => {

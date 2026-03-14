@@ -4,7 +4,6 @@
 
 use figif_core::{Analysis, EncodeConfig};
 use img_hash::ImageHash;
-use ratatui_image::picker::Picker;
 use std::path::PathBuf;
 
 use crate::ui::operations_menu::OptimizeOption;
@@ -93,7 +92,6 @@ pub enum Action {
 
     // Settings
     CycleHashAlgorithm,
-    PickerInitialized(Option<Picker>),
 
     // System
     Tick,

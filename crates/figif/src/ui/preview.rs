@@ -28,26 +28,23 @@ fn render_centered_image(app: &mut App, frame: &mut Frame, area: Rect) {
 
     // Render image if we have state
     if let Some(ref mut image_state) = app.image_state {
-        // Use Scale with Nearest filtering for sharp, crisp GIF pixels
-        let resize = Resize::Scale(Some(FilterType::Nearest));
+        // Determine render area based on zoom level
+        let render_area = if app.preview_scale < 1.0 {
+            // Zoom out: shrink the render area proportionally, then center
+            let scaled = Rect::new(
+                area.x,
+                area.y,
+                (area.width as f32 * app.preview_scale).max(1.0) as u16,
+                (area.height as f32 * app.preview_scale).max(1.0) as u16,
+            );
+            center_rect(scaled, area)
+        } else {
+            area
+        };
 
-        // 1. Calculate the target area within the 'area' that preserves the image aspect ratio
-        // image_state.size_for with Resize::Scale returns the largest Rect that fits in 'area'
-        // with the image's aspect ratio.
-        let mut target_size = image_state.size_for(resize.clone(), area);
-
-        // 2. If scale < 1.0 (Zoom Out), further shrink this target size
-        if app.preview_scale < 1.0 {
-            target_size.width = (target_size.width as f32 * app.preview_scale) as u16;
-            target_size.height = (target_size.height as f32 * app.preview_scale) as u16;
-        }
-
-        // 3. Center the final target size within the original area
-        let centered_area = center_rect(target_size, area);
-
-        // 4. Render with the centered area and Scale resize mode
-        let image_widget = StatefulImage::new().resize(resize);
-        frame.render_stateful_widget(image_widget, centered_area, image_state);
+        // Render image fitted to the render area (aspect ratio preserved, upscales to fill)
+        let image_widget = StatefulImage::new().resize(Resize::Scale(Some(FilterType::Nearest)));
+        frame.render_stateful_widget(image_widget, render_area, image_state);
     } else {
         // Show loading message centered
         let text = Paragraph::new("Loading preview...")

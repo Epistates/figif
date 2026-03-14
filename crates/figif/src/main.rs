@@ -10,6 +10,7 @@ mod theme;
 mod ui;
 
 use app::App;
+use ratatui_image::picker::{Picker, ProtocolType};
 
 /// Interactive TUI for GIF segment manipulation
 #[derive(Parser)]
@@ -44,8 +45,24 @@ async fn main() -> Result<()> {
         app.load_file(path);
     }
 
-    // Initialize terminal
+    // Initialize terminal (enters alternate screen + raw mode)
     let terminal = ratatui::init();
+
+    // Query terminal for graphics protocol support synchronously.
+    // Must happen after alternate screen but before event stream starts.
+    let mut picker = Picker::from_query_stdio().unwrap_or_else(|_| Picker::halfblocks());
+
+    // iTerm2 falsely reports Kitty graphics capability but doesn't support
+    // Kitty's unicode placeholder rendering. Override to iTerm2 protocol,
+    // or fall back to Sixel which iTerm2 also supports.
+    if picker.protocol_type() == ProtocolType::Kitty {
+        let is_iterm = std::env::var("TERM_PROGRAM").is_ok_and(|tp| tp.contains("iTerm"));
+        if is_iterm {
+            picker.set_protocol_type(ProtocolType::Iterm2);
+        }
+    }
+
+    app.set_picker(picker);
 
     // Run the app
     let result = app.run(terminal).await;
