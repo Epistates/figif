@@ -1,6 +1,6 @@
 # figif
 
-**figif** is a state-of-the-art (SOTA) GIF manipulation suite designed for intelligent frame analysis and optimization. Built in Rust with a focus on performance, perceptual correctness, and high-quality encoding.
+**figif** is a GIF manipulation suite designed for intelligent frame analysis and optimization. Built in Rust with a focus on performance, perceptual correctness, and high-quality encoding.
 
 [![CI](https://github.com/epistates/figif/actions/workflows/ci.yml/badge.svg)](https://github.com/epistates/figif/actions/workflows/ci.yml)
 [![License: MIT/Apache-2.0](https://img.shields.io/badge/License-MIT%2FApache--2.0-blue.svg)](LICENSE)
