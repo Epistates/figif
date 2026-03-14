@@ -12,7 +12,7 @@
 - **Parallel Processing**: High-performance frame hashing and processing powered by `rayon`.
 - **Premium TUI**: A hardware-accelerated terminal interface for interactive GIF exploration and optimization.
 - **Fluent API**: A chainable Rust DSL for complex filtering and optimization logic.
-- **Google-Grade Quality**: Continuous fuzzing, exhaustive integration testing, and strict CI enforcement.
+- **Quality Assurance**: Continuous fuzzing, exhaustive integration testing, and strict CI enforcement.
 
 ## Project Structure
 
@@ -45,7 +45,7 @@ figif-cli optimize demo.gif --cap 300 --speed 1.2 -o optimized.gif
 
 Launch the interactive suite:
 ```bash
-figif demo.gif
+figif path/to.gif
 ```
 
 **Keybindings:**
