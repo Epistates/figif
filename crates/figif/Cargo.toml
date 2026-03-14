@@ -11,7 +11,7 @@ name = "figif"
 path = "src/main.rs"
 
 [dependencies]
-figif-core = { path = "../figif-core" }
+figif-core = { path = "../figif-core", version = "0.1.0" }
 img_hash = { workspace = true }
 image.workspace = true
 
