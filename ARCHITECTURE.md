@@ -22,7 +22,7 @@ Analysis is performed using perceptual hashing (dHash, pHash, BlockHash) via the
 
 - **`figif-core`**: The library containing the traits, encoders, decoders, and the analysis engine.
 - **`figif-cli`**: A command-line wrapper around the core library for headless optimization and analysis.
-- **`figif-tui`**: A terminal user interface for interactive exploration and granular trimming.
+- **`figif`**: A terminal user interface for interactive exploration and granular trimming.
 
 ## Extension Points
 The system is designed to be extensible via traits:

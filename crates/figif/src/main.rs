@@ -1,4 +1,4 @@
-//! figif-tui - Interactive terminal UI for GIF manipulation
+//! figif - Interactive terminal UI for GIF manipulation
 
 use clap::Parser;
 use color_eyre::eyre::Result;
@@ -13,7 +13,7 @@ use app::App;
 
 /// Interactive TUI for GIF segment manipulation
 #[derive(Parser)]
-#[command(name = "figif-tui")]
+#[command(name = "figif")]
 #[command(author, version, about)]
 struct Args {
     /// GIF file to open

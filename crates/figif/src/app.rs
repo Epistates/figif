@@ -176,7 +176,7 @@ pub struct App {
 impl App {
     pub fn new(threshold: u32) -> Self {
         let (action_tx, action_rx) = tokio::sync::mpsc::unbounded_channel();
-        
+
         Self {
             mode: Mode::Normal,
             view_mode: ViewMode::Segments,
@@ -248,14 +248,16 @@ impl App {
                     .analyze_file(&path),
             };
 
-            let mapped_result = result
-                .map_err(|e: figif_core::FigifError| e.to_string());
+            let mapped_result = result.map_err(|e: figif_core::FigifError| e.to_string());
             let _ = tx.send(Action::AnalysisResult(mapped_result));
         });
     }
 
     /// Complete the loading process with the analysis result.
-    fn finish_loading(&mut self, result: Result<figif_core::Analysis<img_hash::ImageHash>, String>) {
+    fn finish_loading(
+        &mut self,
+        result: Result<figif_core::Analysis<img_hash::ImageHash>, String>,
+    ) {
         self.loading_file = false;
 
         match result {

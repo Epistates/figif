@@ -26,12 +26,12 @@ pub fn render(app: &mut App, frame: &mut Frame) {
     .areas(area);
 
     render_impact_header(app, frame, header_area);
-    
+
     // Only render main body if not loading
     if !app.loading_file {
         render_main_body(app, frame, body_area);
     }
-    
+
     render_footer(app, frame, footer_area);
 
     // Render loading overlay if active
@@ -346,12 +346,10 @@ fn render_loading_overlay(app: &App, frame: &mut Frame, area: Rect) {
         .title(" Analyzing GIF ");
 
     // Split loading area into text and progress bar
-    let [text_area, progress_area] = Layout::vertical([
-        Constraint::Length(6),
-        Constraint::Length(3),
-    ])
-    .margin(1)
-    .areas(loading_area);
+    let [text_area, progress_area] =
+        Layout::vertical([Constraint::Length(6), Constraint::Length(3)])
+            .margin(1)
+            .areas(loading_area);
 
     let text = vec![
         Line::from(""),
@@ -362,8 +360,7 @@ fn render_loading_overlay(app: &App, frame: &mut Frame, area: Rect) {
         Line::from(Span::styled("for large GIFs.", theme.dim())),
     ];
 
-    let paragraph = Paragraph::new(text)
-        .alignment(ratatui::layout::Alignment::Center);
+    let paragraph = Paragraph::new(text).alignment(ratatui::layout::Alignment::Center);
 
     frame.render_widget(block, loading_area);
     frame.render_widget(paragraph, text_area);

@@ -32,7 +32,7 @@ fn render_centered_image(app: &mut App, frame: &mut Frame, area: Rect) {
         let resize = Resize::Scale(Some(FilterType::Nearest));
 
         // 1. Calculate the target area within the 'area' that preserves the image aspect ratio
-        // image_state.size_for with Resize::Scale returns the largest Rect that fits in 'area' 
+        // image_state.size_for with Resize::Scale returns the largest Rect that fits in 'area'
         // with the image's aspect ratio.
         let mut target_size = image_state.size_for(resize.clone(), area);
 
@@ -213,7 +213,7 @@ fn render_stats_only(app: &App, frame: &mut Frame, area: Rect) {
         )]));
         lines.push(Line::from(""));
         lines.push(Line::from(vec![Span::styled(
-            "Usage: figif-tui <file.gif>",
+            "Usage: figif <file.gif>",
             theme.highlight(),
         )]));
     }
