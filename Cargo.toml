@@ -49,3 +49,10 @@ tui-logger = "0.18.1"
 
 # Dev dependencies
 tempfile = "3.27"
+
+[profile.release]
+lto = true
+opt-level = "z"
+codegen-units = 1
+strip = true
+panic = "abort"
