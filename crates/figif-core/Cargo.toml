@@ -19,11 +19,11 @@ img_hash = { workspace = true }
 gifski = { workspace = true, optional = true }
 rayon = { workspace = true, optional = true }
 rgb = "0.8.53"
-imgref = "1.12.0"
+imgref = "1.12"
 
 [dev-dependencies]
 tempfile = { workspace = true }
-criterion = "0.5"
+criterion = "0.8.2"
 
 [[bench]]
 name = "analysis"

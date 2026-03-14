@@ -403,8 +403,8 @@ impl App {
             let tx = self.action_tx.clone();
             tokio::task::spawn_blocking(move || {
                 let picker = Picker::from_query_stdio().ok().or_else(|| {
-                    // Fallback to a common font size if query fails
-                    Some(Picker::from_fontsize((10, 20)))
+                    // Fallback to halfblocks if protocol query fails
+                    Some(Picker::halfblocks())
                 });
                 let _ = tx.send(Action::PickerInitialized(picker));
             });
@@ -437,7 +437,7 @@ impl App {
                             Event::Resize(_, _) => {
                                 // Refresh picker on resize to ensure cell size is accurate
                                 self.picker = Picker::from_query_stdio().ok().or_else(|| {
-                                    Some(Picker::from_fontsize((10, 20)))
+                                    Some(Picker::halfblocks())
                                 });
                                 // Force re-render of image
                                 self.last_rendered_state = None;
