@@ -10,14 +10,14 @@ pub mod optimize;
 
 /// figif - GIF frame analysis and optimization
 #[derive(Parser)]
-#[command(name = "figif")]
+#[command(name = "figif-cli")]
 #[command(author, version, about, long_about = None)]
 #[command(propagate_version = true)]
 #[command(after_help = "Examples:
-  figif info demo.gif                         Show GIF metadata
-  figif analyze demo.gif                      Analyze segments
-  figif optimize demo.gif out.gif --cap-pauses 300
-  figif completions fish > ~/.config/fish/completions/figif.fish")]
+  figif-cli info demo.gif                         Show GIF metadata
+  figif-cli analyze demo.gif                      Analyze segments
+  figif-cli optimize demo.gif out.gif --cap-pauses 300
+  figif-cli completions fish > ~/.config/fish/completions/figif-cli.fish")]
 pub struct Cli {
     #[command(subcommand)]
     pub command: Commands,

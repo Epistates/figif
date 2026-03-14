@@ -18,7 +18,7 @@
 
 - `figif-core`: The heart of the suite. Handles decoding, analysis, segment detection, and re-encoding.
 - `figif-cli`: Headless CLI for automation and batch processing.
-- `figif-tui`: Interactive terminal UI for granular control.
+- `figif`: Interactive terminal UI for granular control.
 
 ## 🚀 Getting Started
 
@@ -26,26 +26,26 @@
 
 ```bash
 cargo install --path crates/figif-cli
-cargo install --path crates/figif-tui
+cargo install --path crates/figif
 ```
 
 ### CLI Usage
 
 Analyze a GIF and show segment breakdown:
 ```bash
-figif analyze demo.gif
+figif-cli analyze demo.gif
 ```
 
 Optimize a GIF by capping pauses to 300ms and speeding up motion by 1.2x:
 ```bash
-figif optimize demo.gif --cap 300 --speed 1.2 -o optimized.gif
+figif-cli optimize demo.gif --cap 300 --speed 1.2 -o optimized.gif
 ```
 
 ### TUI Usage
 
 Launch the interactive suite:
 ```bash
-figif-tui demo.gif
+figif demo.gif
 ```
 
 **Keybindings:**

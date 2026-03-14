@@ -7,7 +7,7 @@ repository.workspace = true
 description = "CLI for GIF frame analysis and optimization"
 
 [[bin]]
-name = "figif"
+name = "figif-cli"
 path = "src/main.rs"
 
 [dependencies]
